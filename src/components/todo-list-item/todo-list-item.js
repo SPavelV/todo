@@ -8,9 +8,15 @@ class TodoListItem extends Component {
     this.state = {
       
     }
+
   }
+
+  onLabelClick = () => {
+    console.log(`Done: ${this.props.label}`)
+  }
+
   render () {
-    const { label, important = false } = this.props;
+    const { label, important = false } = this.props
 
     const style = {
       color: important ? 'steelblue' : 'black',
@@ -21,7 +27,8 @@ class TodoListItem extends Component {
       <span className="todo-list-item">
         <span
           className="todo-list-item-label"
-          style={style}>
+          style={style}
+          onClick={this.onLabelClick}>
           {label}
         </span>
   
