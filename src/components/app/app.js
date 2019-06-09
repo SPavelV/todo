@@ -8,9 +8,9 @@ import ItemStatusFilter from '../item-status-filter'
 import './index.css'
 
 const todoData = [
-  { id: 1, label: 'Drink Coffee', important: false },
-  { id: 2, label: 'Make Awesome app', important: true },
-  { id: 3, label: 'Have lunch', important: false }
+  { id: 1, label: 'Drink Coffee'},
+  { id: 2, label: 'Make Awesome app'},
+  { id: 3, label: 'Have lunch'}
 ]
 
 const App = () => {
@@ -23,7 +23,9 @@ const App = () => {
         <ItemStatusFilter/>
       </div>
 
-      <ToDoList toDo={todoData}/>
+      <ToDoList 
+        onDeleted = {(id)=>console.log('del: ', id)}
+        toDo={todoData}/>
     </div>
   )
 }
