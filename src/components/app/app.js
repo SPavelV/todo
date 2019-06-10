@@ -1,4 +1,4 @@
-import React from 'react'
+import React,{Component} from 'react'
 
 import AppHeader from '../app-header'
 import SearchPanel from '../search-panel/'
@@ -7,15 +7,26 @@ import ItemStatusFilter from '../item-status-filter'
 
 import './index.css'
 
-const todoData = [
-  { id: 1, label: 'Drink Coffee'},
-  { id: 2, label: 'Make Awesome app'},
-  { id: 3, label: 'Have lunch'}
-]
+export default class App extends Component{
+  state = {
+    todoData: [
+      { id: 1, label: 'Drink Coffee'},
+      { id: 2, label: 'Make Awesome app'},
+      { id: 3, label: 'Have lunch'}
+    ]
+  }
 
-const App = () => {
+  deleteItem = (id) => {
+    this.setState( ({todoData}) => {
+      const newArr = todoData.filter((el) => el.id !==id);
 
-  return (
+      return {
+        todoData: newArr
+      }
+    })
+  }
+  render() {
+    return (
     <div className="todo-app">
       <AppHeader toDo={1} done={3} />
       <div className="top-panel d-flex">
@@ -24,10 +35,8 @@ const App = () => {
       </div>
 
       <ToDoList 
-        onDeleted = {(id)=>console.log('del: ', id)}
-        toDo={todoData}/>
+        onDeleted = {this.deleteItem}
+        toDo={this.state.todoData}/>
     </div>
-  )
+  )}
 }
-
-export default App
