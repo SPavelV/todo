@@ -48,29 +48,40 @@ export default class App extends Component{
     })
   }
 
+  toggleProperty = (arr, id, propName) => {
+    return arr.map(element => {
+      if(element.id === id) element[propName] = !element[propName]
+      return element
+    })
+  }
+
   onToggleImportant = (id) => {
     this.setState(({todoData}) => {
-      return todoData.map(element => {
-        if(element.id === id) element.important = !element.important
-        return element
-      })
+      return {
+        todoData:  this.toggleProperty(todoData, id, 'important')
+      }
     })
+   
   }
 
   onToggleDone = (id) => {
     this.setState(({todoData}) => {
-      return todoData.map(element => {
-        if(element.id === id) element.done = !element.done
-        return element
-      })
+      return {
+        todoData:  this.toggleProperty(todoData, id, 'done')
+      }
     })
-    
+   
   }
 
   render() {
+
+    const {todoData} = this.state;
+    const doneCount = todoData.filter(element => element.done === true).length
+    const todoCount = todoData.length - doneCount;
+
     return (
     <div className="todo-app">
-      <AppHeader toDo={1} done={3} />
+      <AppHeader toDo={todoCount} done={doneCount} />
       <div className="top-panel d-flex">
         <SearchPanel/>
         <ItemStatusFilter/>
@@ -80,7 +91,7 @@ export default class App extends Component{
         onToggleImportant = {this.onToggleImportant}
         onToggleDone = {this.onToggleDone}
         onDeleted = {this.deleteItem}
-        toDo={this.state.todoData}/>
+        toDo={todoData}/>
         <ItemAddForm addItem={this.addItem}/>
     </div>
   )}
