@@ -17,7 +17,8 @@ export default class App extends Component{
       this.createToDoItem('Make Awesome app'),
       this.createToDoItem('Have lunch')
     ],
-    isSearch: false
+    isSearch: false,
+    filter: 'All'
   }
 
   createToDoItem(label) {
@@ -74,9 +75,9 @@ export default class App extends Component{
    
   }
 
-  search = (todoData, value) => {
+  search = (todoData, value, propName) => {
     return todoData.filter(element => {
-      return element.label.toUpperCase().search(value.toUpperCase()) !==-1
+      return element[propName].toUpperCase().search(value.toUpperCase()) !==-1
     })
   }
 
@@ -87,10 +88,15 @@ export default class App extends Component{
     }
     this.setState(({todoData}) => {
       return {
-        todoSearchData: this.search(todoData, value),
+        todoSearchData: this.search(todoData, value, 'label'),
         isSearch: true
       }
     })
+  }
+
+  toggleFilter = (value) => {
+    // console.log('---value:',value);
+  
   }
 
   render() {
@@ -106,7 +112,7 @@ export default class App extends Component{
       <AppHeader toDo={todoCount} done={doneCount} />
       <div className="top-panel d-flex">
         <SearchPanel searchItem={this.searchItem}/>
-        <ItemStatusFilter/>
+        <ItemStatusFilter toggleFilter={this.toggleFilter}/>
       </div>
 
       <ToDoList 
