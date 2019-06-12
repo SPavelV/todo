@@ -17,7 +17,6 @@ export default class App extends Component{
       this.createToDoItem('Make Awesome app'),
       this.createToDoItem('Have lunch')
     ],
-    isSearch: false,
     filter: 'All'
   }
 
@@ -94,18 +93,22 @@ export default class App extends Component{
     })
   }
 
-  toggleFilter = (value) => {
-    // console.log('---value:',value);
-  
+  toggleFilter = (nameFilter) => {
+    this.setState({filter: nameFilter})
+  }
+
+  filterData = (data) => {
+    if(this.state.filter === 'All') return data
+    if(this.state.filter === 'Done') return data.filter(element=>element.done===true)
+    if(this.state.filter === 'Active') return data.filter(element=>element.done===false)
   }
 
   render() {
-
-    const {todoData} = this.state;
+    const {todoData} = this.state
     const doneCount = todoData.filter(element => element.done === true).length
-    const todoCount = todoData.length - doneCount;
+    const todoCount = todoData.length - doneCount
 
-    const dataList = this.state.isSearch ? this.state.todoSearchData : todoData
+    const dataList = this.state.isSearch ? this.filterData(this.state.todoSearchData) : this.filterData(todoData)
 
     return (
     <div className="todo-app">
