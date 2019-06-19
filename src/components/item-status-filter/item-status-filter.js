@@ -4,39 +4,29 @@ import './item-status-filter.css'
 
 class ItemStatusFilter extends Component {
 
-  state = {
-    dataBtn: [
-      {label:'All'},
-      {label:'Active'},
-      {label: 'Done'}
-    ],
-    activeBtn: 'All'
-  }
-
-  clickButtonHendler = (evt) => {
-    const textButton = evt.target.textContent;
-    this.setState({activeBtn: textButton})
-    this.props.toggleFilter(textButton)
-  }
+  dataBtn =  [
+    {name:'all',label: 'All'},
+    {name:'active', label: 'Active'},
+    {name:'done', label: 'Done'}
+  ]
 
   getButtons = () => {
-    const {dataBtn, activeBtn} = this.state
+    const {filter, onFilterChange} = this.props
     
-    return dataBtn.map(element => {
-      const cssClass = element.label === activeBtn ? 'btn btn-info' : 'btn btn-outline-secondary'
+    return this.dataBtn.map(({name,label}) => {
+      const isActive = filter === name;
+      const clazz = isActive ? 'btn-info' : 'btn-outline-secondary'
       return (
-        <button key={element.label}
+        <button key={name}
                 type="button"
-                onClick={this.clickButtonHendler}
-                className={cssClass}>{element.label}</button>
+                onClick={()=>onFilterChange(name)}
+                className={`btn ${clazz}`}>{label}</button>
       )
-
     })
   }
 
   render() {
     
-
     return (
       <div className="btn-group">
         {this.getButtons()}
